@@ -314,5 +314,4 @@ module.exports = {
   playlistAesDecrypt,
   publicLiteRasKey,
   publicRasKey,
-  wordArrayFromBuffer,
 };

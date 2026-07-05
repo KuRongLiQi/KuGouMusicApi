@@ -4,7 +4,7 @@ module.exports = (params, useAxios) => {
     album_id: params.id,
     is_buy:  params?.is_buy || '',
     page: params?.page || 1,
-    pagesize: params?.pagesize || 30,
+    pagesize: Math.min(Number(params?.pagesize) || 30, 50),
   };
 
   return useAxios({

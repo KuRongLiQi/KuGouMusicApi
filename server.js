@@ -359,10 +359,22 @@ async function consturctServer(moduleDefs) {
       // 这样客户端可以通过 Authorization 头传递认证信息，例如: token=xxx;userid=xxx
       const authHeader = req.headers['authorization'];
       if (authHeader) {
+        // 添加详细日志，查看Authorization头内容
+        console.log(`[AUTH] ${moduleDef.route} Authorization: ${authHeader.substring(0, 200)}${authHeader.length > 200 ? '...' : ''}`);
         query.cookie = {
           ...query.cookie,
           ...cookieToJson(authHeader),
         };
+      }
+
+      // 添加详细的请求参数日志（仅针对 playlist/tracks/add）
+      if (moduleDef.route === '/playlist/tracks/add') {
+        console.log('[DEBUG] /playlist/tracks/add 请求参数:');
+        console.log('  - listid:', query.listid);
+        console.log('  - data:', query.data);
+        console.log('  - userid:', query.userid || query.cookie?.userid);
+        console.log('  - token:', query.token || query.cookie?.token ? '***' : 'undefined');
+        console.log('  - cookie keys:', Object.keys(query.cookie || {}));
       }
 
       try {
@@ -387,6 +399,10 @@ async function consturctServer(moduleDefs) {
 
         // 请求成功日志
         console.log('[OK]', decode(req.originalUrl));
+        // 如果是添加歌曲接口，打印响应体
+        if (req.originalUrl.includes('/playlist/tracks/add')) {
+          console.log('[RESPONSE BODY]', JSON.stringify(moduleResponse.body, null, 2));
+        }
 
         // Step 6: 处理模块返回的 Cookie
         // 将模块设置的 Cookie 通过 Set-Cookie 响应头写回客户端

@@ -116,7 +116,7 @@ const createRequest = (options) => {
     }
 
     // ========== 序列化请求体 ==========
-    const data = Buffer.isBuffer(options?.data) ? options.data : typeof options?.data === 'object' ? JSON.stringify(options.data) : options?.data || '';
+    const data = typeof options?.data === 'object' ? JSON.stringify(options.data) : options?.data || '';
 
     // ========== 生成请求签名 ==========
     // 根据 encryptType 选择不同的签名算法
@@ -181,6 +181,18 @@ const createRequest = (options) => {
 
     // ========== 发送请求 ==========
     const answer = { status: 500, body: {}, cookie: [], headers: {} };
+
+    // 【调试日志】打印完整请求信息
+    if (options.url?.includes('playlist/tracks/add') || options.url?.includes('add_song')) {
+      console.log('\n========== [KuGouMusicApi] 发送收藏请求 ==========');
+      console.log('URL:', requestOptions.baseURL + requestOptions.url);
+      console.log('Method:', requestOptions.method);
+      console.log('Params:', JSON.stringify(requestOptions.params, null, 2));
+      console.log('Data:', JSON.stringify(requestOptions.data, null, 2));
+      console.log('Headers:', JSON.stringify(requestOptions.headers, null, 2));
+      console.log('=============================================\n');
+    }
+
     try {
       const response = await axios(requestOptions);
 
