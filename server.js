@@ -71,6 +71,17 @@ if (fs.existsSync(envPath)) {
   dotenv.config({ path: envPath, quiet: true });
 }
 
+// KRMusic relies on the Concept (Lite) API for daily listening VIP. Keep an
+// explicit non-lite setting intact, but do not silently start in an undefined
+// platform mode when a deployment omits the environment variable. Some cloud
+// environments also serialize a missing value as the literal strings below.
+const configuredPlatform = typeof process.env.platform === 'string'
+  ? process.env.platform.trim().toLowerCase()
+  : '';
+if (!configuredPlatform || configuredPlatform === 'undefined' || configuredPlatform === 'null') {
+  process.env.platform = 'lite';
+}
+
 /**
  * 动态扫描指定目录，获取所有 API 模块的定义信息
  *
