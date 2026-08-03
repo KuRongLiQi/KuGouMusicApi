@@ -21,7 +21,7 @@
  * @requires ./util - 工具函数（randomString）
  */
 
-const { randomString } = require('./util');
+const { randomString, generateWebGLHash } = require('./util');
 
 const CryptoJS = require('crypto-js');
 const forge = require('node-forge');
@@ -317,8 +317,6 @@ const generateSimulate = (mid, userid, dfid, webglHash) => {
   // - ts: 时间戳
   // - data: 行为事件数据
   const sidPlaintext = `mid=${mid};userid=${userid};dfid=${dfid};webgl=${webglHash};webdriver=0;ts=${ts};data=${data}`;
-
-  console.log(sidPlaintext);
 
   // 第1步: AES-128-CBC 加密行为指纹明文 → EDT
   // - 密钥: 随机生成的 16 字符字符串

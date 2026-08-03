@@ -371,7 +371,6 @@ async function consturctServer(moduleDefs) {
       const authHeader = req.headers['authorization'];
       if (authHeader) {
         // 添加详细日志，查看Authorization头内容
-        console.log(`[AUTH] ${moduleDef.route} Authorization: ${authHeader.substring(0, 200)}${authHeader.length > 200 ? '...' : ''}`);
         query.cookie = {
           ...query.cookie,
           ...cookieToJson(authHeader),
