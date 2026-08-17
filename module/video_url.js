@@ -17,5 +17,6 @@ module.exports = (params, useAxios) => {
     encryptType: 'android',
     encryptKey: true,
     headers: { 'x-router': 'trackermv.kugou.com' },
+    cookie: params?.cookie || {},
   });
 };

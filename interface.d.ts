@@ -606,7 +606,7 @@ export interface AudioAccompanyMatchingParams extends CommonParams {
   /** 音乐文件名（必选） */
   fileName: string;
   /** 音乐的 mixsongid / album_audio_id（必选） */
-  mixid: string;
+  mixId: string;
 }
 
 /** 获取音乐 K 歌数量参数 */
